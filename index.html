@@ -11,18 +11,18 @@
 
     <style>
         :root {
-            /* Paleta Sóbria e Profissional */
-            --bg-body: #fafafa;
+            --bg-body: #f9fafb;
             --bg-card: #ffffff;
-            --text-main: #111111;
-            --text-muted: #555555;
-            --accent: #2d3436; /* Preto suave para elementos de destaque */
-            --accent-hover: #000000;
-            --border: #e0e0e0;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --accent: #000000;
+            --border: #e5e7eb;
+            --bg-code: #1f2937;
+            --text-code: #f3f4f6;
             
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            --shadow-subtle: 0 2px 5px rgba(0,0,0,0.03);
-            --shadow-hover: 0 10px 30px rgba(0,0,0,0.06);
+            --transition: all 0.2s ease-in-out;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         * {
@@ -32,29 +32,22 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: var(--transition);
-        }
-
-        /* Layout Container */
         .container {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 0 2rem;
         }
 
-        /* Header Minimalista */
+        /* Header */
         header {
-            padding: 4rem 0 3rem 0;
+            padding: 3rem 0;
             border-bottom: 1px solid var(--border);
             margin-bottom: 4rem;
         }
@@ -65,24 +58,286 @@
             align-items: center;
         }
 
-        h1.site-title {
-            font-size: 1.25rem;
+        .site-title {
+            font-size: 1.2rem;
             font-weight: 700;
             letter-spacing: -0.5px;
             text-transform: uppercase;
-            color: var(--accent);
         }
 
         .repo-link {
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             font-weight: 500;
-            color: var(--text-muted);
+            color: var(--text-main);
+            text-decoration: none;
             border: 1px solid var(--border);
             padding: 0.5rem 1rem;
-            border-radius: 20px;
+            border-radius: 6px;
+            transition: var(--transition);
         }
 
         .repo-link:hover {
             border-color: var(--accent);
-            color: var(--accent);
-            background-color: #fff;
+            background-color: var(--accent);
+            color: #ffffff;
+        }
+
+        /* Hero */
+        .hero {
+            margin-bottom: 4rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            max-width: 700px;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .skill-card {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .skill-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-card p.desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        /* Code Blocks */
+        .install-block {
+            margin-bottom: 1.5rem;
+        }
+
+        .install-block span {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        code.cli {
+            display: block;
+            background-color: var(--bg-code);
+            color: var(--text-code);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .btn-link {
+            display: inline-block;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--text-main);
+            padding-bottom: 2px;
+            align-self: flex-start;
+            transition: var(--transition);
+        }
+
+        .btn-link:hover {
+            color: var(--text-muted);
+            border-color: var(--text-muted);
+        }
+
+        /* Prompts Section */
+        .prompt-card {
+            background-color: var(--bg-card);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 5rem;
+        }
+
+        .prompt-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .prompt-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .prompt-box {
+            background-color: var(--bg-body);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+            font-family: inherit;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .header-content { flex-direction: column; gap: 1rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <div class="site-title">Claude Skills</div>
+            <a href="https://github.com/gabrielsoaressn/claude-code-skills" target="_blank" class="repo-link">
+                Repositório GitHub
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Ferramentas e fluxos para o Claude Code</h1>
+            <p>Um diretório técnico de habilidades customizadas e prompts avançados projetados para otimizar o processamento de dados e a segurança.</p>
+        </section>
+
+        <h2 class="section-title">Skills Disponíveis</h2>
+        <section class="skills-grid">
+            
+            <article class="skill-card">
+                <h3>Módulo: Data</h3>
+                <p class="desc">Habilidades e scripts focados na manipulação, limpeza e análise de grandes volumes de informação. Ideal para estruturação de bancos de dados e higienização de listas.</p>
+                
+                <div class="install-block">
+                    <span>Instalação</span>
+                    <code class="cli">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/data/install.sh</code>
+                </div>
+
+                <a href="https://github.com/gabrielsoaressn/claude-code-skills/tree/main/data" target="_blank" class="btn-link">Ver documentação completa</a>
+            </article>
+
+            <article class="skill-card">
+                <h3>Módulo: Security</h3>
+                <p class="desc">Ferramentas de auditoria, verificações de vulnerabilidades e práticas de código seguro para garantir a integridade dos projetos analisados pelo Claude.</p>
+                
+                <div class="install-block">
+                    <span>Instalação</span>
+                    <code class="cli">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/security/install.sh</code>
+                </div>
+
+                <a href="https://github.com/gabrielsoaressn/claude-code-skills/tree/main/security" target="_blank" class="btn-link">Ver documentação completa</a>
+            </article>
+
+        </section>
+
+        <h2 class="section-title">Prompts Úteis</h2>
+        <section class="prompts-section">
+            
+            <article class="prompt-card">
+                <h3>Importação em Massa para GoHighLevel (GHL)</h3>
+                <p>Use este prompt para instruir o Claude a receber uma lista de leads bruta e formatá-la perfeitamente para os padrões estritos de importação do CRM GoHighLevel, incluindo tratamento de telefones brasileiros (E.164).</p>
+                
+                <div class="prompt-box">Atue como um especialista em estruturação de dados e CRM. Sua tarefa é receber uma lista bruta de leads e transformá-la em um arquivo CSV formatado estritamente para importação em massa no GoHighLevel (GHL).
+
+Aqui estão as regras obrigatórias de formatação e a estrutura exata de colunas que o arquivo final deve ter:
+
+**ESTRUTURA DE COLUNAS (Exatamente nesta ordem e nomenclatura):**
+1. First Name
+2. Last Name
+3. Email
+4. Phone
+5. Tags
+6. Source
+7. Pipeline
+8. Opportunity name
+
+**REGRAS DE PREENCHIMENTO E TRATAMENTO DE DADOS:**
+* **First Name:** Se estiver em branco na origem, preencha com "Lead". Limpe espaços em branco extras.
+* **Last Name:** Se estiver em branco na origem, preencha com "sobrenome".
+* **Email:** Se não houver, deixe a célula completamente vazia (não use n/a ou traços).
+* **Phone (REGRA CRÍTICA E.164):** * Extraia apenas os números.
+    * Adicione o código do país "+55" no início.
+    * Verifique o 9º dígito para celulares do Brasil: Se o número (após o DDD) tiver apenas 8 dígitos e começar com 6, 7, 8 ou 9, você DEVE adicionar o dígito "9" logo após o DDD. (Exemplo: de +55 71 84585405 para +55 71 984585405).
+    * Se for telefone fixo (8 dígitos começando com 2, 3, 4 ou 5), não adicione o 9.
+* **Tags:** Preencha todas as linhas com a tag: [INSERIR TAG AQUI, ex: importado]
+* **Source:** Preencha todas as linhas com: [INSERIR FONTE AQUI, ex: importação março 2026]
+* **Pipeline:** Preencha todas as linhas com: [INSERIR PIPELINE AQUI, ex: 2. Corretor]
+* **Opportunity name:** Concatene o "First Name" + espaço + "Last Name" (Ex: Lead sobrenome).
+
+**FORMATO DE SAÍDA:**
+Me entregue o resultado em um bloco de código CSV formatado por vírgulas, pronto para ser copiado e salvo como .csv, ou gere um arquivo .csv para download. Não altere os nomes dos cabeçalhos em nenhuma hipótese.
+
+Aqui estão os dados brutos para você processar:
+[COLE SUA LISTA BRUTA AQUI]</div>
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Desenvolvido por <a href="https://github.com/gabrielsoaressn" target="_blank">Gabriel Soares</a> &copy; 2026</p>
+        </div>
+    </footer>
+
+</body>
+</html>
