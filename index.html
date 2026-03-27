@@ -11,18 +11,22 @@
 
     <style>
         :root {
-            --bg-body: #f9fafb;
+            --bg-body: #fdfdfd;
             --bg-card: #ffffff;
             --text-main: #111827;
             --text-muted: #4b5563;
-            --accent: #000000;
+            
+            /* Laranja Corporativo do Claude */
+            --claude-orange: #d97706; /* Laranja rico e profissional */
+            --claude-orange-dark: #b45309; 
+            
             --border: #e5e7eb;
             --bg-code: #1f2937;
             --text-code: #f3f4f6;
             
             --transition: all 0.2s ease-in-out;
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-card-hover: 0 12px 24px -4px rgba(217, 119, 6, 0.08); /* Sombra laranja sutil */
         }
 
         * {
@@ -45,10 +49,10 @@
             padding: 0 2rem;
         }
 
-        /* Header */
+        /* Header Minimalista com Laranja */
         header {
             padding: 3rem 0;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 2px solid var(--claude-orange); /* Detalhe laranja */
             margin-bottom: 4rem;
         }
 
@@ -77,8 +81,8 @@
         }
 
         .repo-link:hover {
-            border-color: var(--accent);
-            background-color: var(--accent);
+            border-color: var(--claude-orange);
+            background-color: var(--claude-orange);
             color: #ffffff;
         }
 
@@ -95,6 +99,10 @@
             margin-bottom: 1rem;
         }
 
+        .hero h1 span {
+            color: var(--claude-orange); /* Título em laranja */
+        }
+
         .hero p {
             font-size: 1.125rem;
             color: var(--text-muted);
@@ -105,49 +113,68 @@
         .section-title {
             font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--accent);
+            border-bottom: 2px solid var(--border);
             display: inline-block;
         }
 
         /* Skills Grid */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
             margin-bottom: 5rem;
         }
 
         .skill-card {
             background-color: var(--bg-card);
-            padding: 2rem;
-            border-radius: 8px;
+            padding: 2.5rem;
+            border-radius: 12px;
             border: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
             display: flex;
             flex-direction: column;
+            transition: var(--transition);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-card-hover);
+            border-color: var(--claude-orange); /* Borda laranja no hover */
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-icon {
+            font-size: 1.5rem;
+            color: var(--claude-orange); /* Ícones em laranja */
+            margin-right: 1rem;
         }
 
         .skill-card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+            font-weight: 700;
         }
 
         .skill-card p.desc {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: var(--text-muted);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             flex-grow: 1;
         }
 
         /* Code Blocks */
-        .install-block {
-            margin-bottom: 1.5rem;
+        .code-container {
+            position: relative; /* Para posicionar o botão de copiar */
+            margin-bottom: 2rem;
         }
 
-        .install-block span {
+        .install-label {
             display: block;
             font-size: 0.75rem;
             text-transform: uppercase;
@@ -161,64 +188,57 @@
             display: block;
             background-color: var(--bg-code);
             color: var(--text-code);
-            padding: 0.75rem 1rem;
-            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
             font-family: monospace;
-            font-size: 0.85rem;
+            font-size: 0.875rem;
             overflow-x: auto;
             white-space: nowrap;
+        }
+
+        /* Botão de Copiar (Typico de páginas de código) */
+        .copy-button {
+            position: absolute;
+            top: 2rem; /* Ajustado para alinhar com o código */
+            right: 0.75rem;
+            background-color: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-code);
+            opacity: 0.6;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .copy-button:hover {
+            opacity: 1;
+            background-color: var(--border);
+            color: var(--text-main);
+        }
+
+        .copy-button.copied {
+            background-color: var(--claude-orange);
+            border-color: var(--claude-orange);
+            color: white;
+            opacity: 1;
         }
 
         .btn-link {
             display: inline-block;
             text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: var(--text-main);
-            border-bottom: 1px solid var(--text-main);
-            padding-bottom: 2px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--claude-orange); /* Texto do link laranja */
+            margin-top: auto;
             align-self: flex-start;
-            transition: var(--transition);
         }
 
         .btn-link:hover {
-            color: var(--text-muted);
-            border-color: var(--text-muted);
-        }
-
-        /* Prompts Section */
-        .prompt-card {
-            background-color: var(--bg-card);
-            padding: 2rem;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 5rem;
-        }
-
-        .prompt-card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .prompt-card p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-
-        .prompt-box {
-            background-color: var(--bg-body);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 1.5rem;
-            font-family: inherit;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: var(--text-main);
-            white-space: pre-wrap;
-            overflow-x: auto;
+            color: var(--claude-orange-dark);
         }
 
         /* Footer */
@@ -231,7 +251,7 @@
         }
 
         footer a {
-            color: var(--text-main);
+            color: var(--claude-orange); /* Nome em laranja */
             text-decoration: none;
             font-weight: 500;
         }
@@ -239,6 +259,7 @@
         @media (max-width: 768px) {
             .hero h1 { font-size: 2rem; }
             .header-content { flex-direction: column; gap: 1rem; text-align: center; }
+            .skills-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -255,78 +276,41 @@
 
     <main class="container">
         <section class="hero">
-            <h1>Ferramentas e fluxos para o Claude Code</h1>
-            <p>Um diretório técnico de habilidades customizadas e prompts avançados projetados para otimizar o processamento de dados e a segurança.</p>
+            <h1>Ferramentas e fluxos para o <span>Claude Code</span></h1>
+            <p>Um diretório técnico de habilidades customizadas projetadas para otimizar o processamento de dados e a segurança cibernética.</p>
         </section>
 
-        <h2 class="section-title">Skills Disponíveis</h2>
+        <h2 class="section-title">Habilidades Prontas</h2>
         <section class="skills-grid">
             
             <article class="skill-card">
-                <h3>Módulo: Data</h3>
-                <p class="desc">Habilidades e scripts focados na manipulação, limpeza e análise de grandes volumes de informação. Ideal para estruturação de bancos de dados e higienização de listas.</p>
+                <div class="card-header">
+                    <span class="skill-icon">📊</span> <h3>Módulo: Data</h3>
+                </div>
+                <p class="desc">Habilidades focadas na manipulação, limpeza e análise de grandes volumes de informação. Ideal para estruturação de bancos de dados.</p>
                 
-                <div class="install-block">
-                    <span>Instalação</span>
-                    <code class="cli">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/data/install.sh</code>
+                <div class="code-container">
+                    <label class="install-label">Instalação</label>
+                    <code class="cli" id="code-data">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/data/install.sh</code>
+                    <button class="copy-button" onclick="copyCode('code-data')">Copiar</button>
                 </div>
 
-                <a href="https://github.com/gabrielsoaressn/claude-code-skills/tree/main/data" target="_blank" class="btn-link">Ver documentação completa</a>
+                <a href="https://github.com/gabrielsoaressn/claude-code-skills/tree/main/data" target="_blank" class="btn-link">Ver documentação</a>
             </article>
 
             <article class="skill-card">
-                <h3>Módulo: Security</h3>
-                <p class="desc">Ferramentas de auditoria, verificações de vulnerabilidades e práticas de código seguro para garantir a integridade dos projetos analisados pelo Claude.</p>
+                <div class="card-header">
+                    <span class="skill-icon">🛡️</span> <h3>Módulo: Security</h3>
+                </div>
+                <p class="desc">Ferramentas de auditoria e práticas de código seguro para garantir a integridade dos projetos analisados pelo Claude.</p>
                 
-                <div class="install-block">
-                    <span>Instalação</span>
-                    <code class="cli">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/security/install.sh</code>
+                <div class="code-container">
+                    <label class="install-label">Instalação</label>
+                    <code class="cli" id="code-security">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/security/install.sh</code>
+                    <button class="copy-button" onclick="copyCode('code-security')">Copiar</button>
                 </div>
 
-                <a href="https://github.com/gabrielsoaressn/claude-code-skills/tree/main/security" target="_blank" class="btn-link">Ver documentação completa</a>
-            </article>
-
-        </section>
-
-        <h2 class="section-title">Prompts Úteis</h2>
-        <section class="prompts-section">
-            
-            <article class="prompt-card">
-                <h3>Importação em Massa para GoHighLevel (GHL)</h3>
-                <p>Use este prompt para instruir o Claude a receber uma lista de leads bruta e formatá-la perfeitamente para os padrões estritos de importação do CRM GoHighLevel, incluindo tratamento de telefones brasileiros (E.164).</p>
-                
-                <div class="prompt-box">Atue como um especialista em estruturação de dados e CRM. Sua tarefa é receber uma lista bruta de leads e transformá-la em um arquivo CSV formatado estritamente para importação em massa no GoHighLevel (GHL).
-
-Aqui estão as regras obrigatórias de formatação e a estrutura exata de colunas que o arquivo final deve ter:
-
-**ESTRUTURA DE COLUNAS (Exatamente nesta ordem e nomenclatura):**
-1. First Name
-2. Last Name
-3. Email
-4. Phone
-5. Tags
-6. Source
-7. Pipeline
-8. Opportunity name
-
-**REGRAS DE PREENCHIMENTO E TRATAMENTO DE DADOS:**
-* **First Name:** Se estiver em branco na origem, preencha com "Lead". Limpe espaços em branco extras.
-* **Last Name:** Se estiver em branco na origem, preencha com "sobrenome".
-* **Email:** Se não houver, deixe a célula completamente vazia (não use n/a ou traços).
-* **Phone (REGRA CRÍTICA E.164):** * Extraia apenas os números.
-    * Adicione o código do país "+55" no início.
-    * Verifique o 9º dígito para celulares do Brasil: Se o número (após o DDD) tiver apenas 8 dígitos e começar com 6, 7, 8 ou 9, você DEVE adicionar o dígito "9" logo após o DDD. (Exemplo: de +55 71 84585405 para +55 71 984585405).
-    * Se for telefone fixo (8 dígitos começando com 2, 3, 4 ou 5), não adicione o 9.
-* **Tags:** Preencha todas as linhas com a tag: [INSERIR TAG AQUI, ex: importado]
-* **Source:** Preencha todas as linhas com: [INSERIR FONTE AQUI, ex: importação março 2026]
-* **Pipeline:** Preencha todas as linhas com: [INSERIR PIPELINE AQUI, ex: 2. Corretor]
-* **Opportunity name:** Concatene o "First Name" + espaço + "Last Name" (Ex: Lead sobrenome).
-
-**FORMATO DE SAÍDA:**
-Me entregue o resultado em um bloco de código CSV formatado por vírgulas, pronto para ser copiado e salvo como .csv, ou gere um arquivo .csv para download. Não altere os nomes dos cabeçalhos em nenhuma hipótese.
-
-Aqui estão os dados brutos para você processar:
-[COLE SUA LISTA BRUTA AQUI]</div>
+                <a href="https://github.com/gabrielsoaressn/claude-code-skills/tree/main/security" target="_blank" class="btn-link">Ver documentação</a>
             </article>
 
         </section>
@@ -338,6 +322,34 @@ Aqui estão os dados brutos para você processar:
             <p>Desenvolvido por <a href="https://github.com/gabrielsoaressn" target="_blank">Gabriel Soares</a> &copy; 2026</p>
         </div>
     </footer>
+
+    <script>
+        async function copyCode(elementId) {
+            const codeElement = document.getElementById(elementId);
+            const button = codeElement.nextElementSibling; // O botão de copiar é o próximo elemento
+            const codeText = codeElement.innerText;
+
+            try {
+                // Tenta usar a API da área de transferência moderna
+                await navigator.clipboard.writeText(codeText);
+                
+                // Muda o visual do botão temporariamente
+                button.classList.add('copied');
+                button.innerText = 'Copiado!';
+                
+                // Restaura o visual original após 2 segundos
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerText = 'Copiar';
+                }, 2000);
+
+            } catch (err) {
+                // Tratamento de erro (se o navegador for muito antigo)
+                console.error('Falha ao copiar:', err);
+                button.innerText = 'Erro';
+            }
+        }
+    </script>
 
 </body>
 </html>
