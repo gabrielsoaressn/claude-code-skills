@@ -66,32 +66,34 @@
 
         .site-title { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; text-transform: uppercase; }
 
-        .nav-controls { display: flex; gap: 1rem; align-items: center; }
+        .nav-controls { display: flex; gap: 0.75rem; align-items: center; }
 
-        .theme-toggle {
+        /* Estilo base para botões de controle (Tema e GitHub) */
+        .control-btn {
             background: none;
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 0.5rem;
-            border-radius: 6px;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
+            justify-content: center;
             transition: var(--transition);
-        }
-
-        .repo-link {
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: var(--text-main);
             text-decoration: none;
-            border: 1px solid var(--border);
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: var(--transition);
         }
 
-        .repo-link:hover, .theme-toggle:hover { border-color: var(--claude-orange); }
+        .control-btn:hover {
+            border-color: var(--claude-orange);
+            background-color: rgba(217, 119, 6, 0.05);
+            color: var(--claude-orange);
+        }
+        
+        body.dark-mode .control-btn:hover {
+            background-color: rgba(251, 146, 60, 0.1);
+            color: var(--claude-orange);
+        }
 
         /* Hero */
         .hero { margin-bottom: 4rem; }
@@ -158,6 +160,7 @@
             padding: 1.25rem 3.5rem 1.25rem 1.25rem;
             border-radius: 8px;
             font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: Consolas, monospace;
             font-size: 0.85rem;
             overflow-x: auto;
             border: 1px solid rgba(255,255,255,0.05);
@@ -179,8 +182,6 @@
             cursor: pointer;
             transition: var(--transition);
         }
-
-        body.dark-mode .copy-button { background-color: rgba(255, 255, 255, 0.05); }
 
         .copy-button:hover { background-color: var(--claude-orange); color: white; border-color: var(--claude-orange); }
         .copy-button.copied { background-color: #10b981; border-color: #10b981; color: white; }
@@ -205,7 +206,8 @@
             white-space: pre-wrap;
             color: var(--text-main);
         }
-        .prompt-wrapper .copy-button { color: var(--text-muted); border-color: var(--border); }
+        .prompt-wrapper .copy-button { color: var(--text-muted); border-color: var(--border); background-color: var(--bg-card); }
+        .prompt-wrapper .copy-button:hover { background-color: var(--claude-orange); color: white; }
 
         footer { padding: 4rem 0; border-top: 1px solid var(--border); text-align: center; font-size: 0.875rem; color: var(--text-muted); }
         footer a { color: var(--claude-orange); text-decoration: none; font-weight: 600; }
@@ -222,12 +224,16 @@
         <div class="container header-content">
             <div class="site-title">Claude Skills</div>
             <div class="nav-controls">
-                <button id="theme-toggle" class="theme-toggle" title="Alternar tema">
+                <button id="theme-toggle" class="control-btn theme-toggle" title="Alternar tema">
                     <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                     </svg>
                 </button>
-                <a href="https://github.com/gabrielsoaressn/claude-code-skills" target="_blank" class="repo-link">GitHub</a>
+                <a href="https://github.com/gabrielsoaressn/claude-code-skills" target="_blank" class="control-btn repo-link" title="Ver repositório no GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
             </div>
         </div>
     </header>
@@ -252,7 +258,7 @@
                 <label class="install-label">Instalação via curl</label>
                 <div class="copy-wrapper">
                     <code id="code-data" class="cli">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/data/install.sh</code>
-                    <button class="copy-button" onclick="copyText('code-data', this)">
+                    <button class="copy-button" onclick="copyText('code-data', this)" title="Copiar comando">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                     </button>
                 </div>
@@ -270,7 +276,7 @@
                 <label class="install-label">Instalação via curl</label>
                 <div class="copy-wrapper">
                     <code id="code-sec" class="cli">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/security/install.sh</code>
-                    <button class="copy-button" onclick="copyText('code-sec', this)">
+                    <button class="copy-button" onclick="copyText('code-sec', this)" title="Copiar comando">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                     </button>
                 </div>
@@ -288,7 +294,7 @@
                 <label class="install-label">Instalação via curl</label>
                 <div class="copy-wrapper">
                     <code id="code-i18n" class="cli">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/i18n/install.sh</code>
-                    <button class="copy-button" onclick="copyText('code-i18n', this)">
+                    <button class="copy-button" onclick="copyText('code-i18n', this)" title="Copiar comando">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                     </button>
                 </div>
@@ -306,7 +312,7 @@
                 <label class="install-label">Instalação via curl</label>
                 <div class="copy-wrapper">
                     <code id="code-perf" class="cli">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/performance/install.sh</code>
-                    <button class="copy-button" onclick="copyText('code-perf', this)">
+                    <button class="copy-button" onclick="copyText('code-perf', this)" title="Copiar comando">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                     </button>
                 </div>
@@ -334,7 +340,7 @@ Aqui estão as regras obrigatórias de formatação e a estrutura exata de colun
 * Tags/Source/Pipeline: Preencha conforme os campos indicados.
 
 Me entregue o resultado em bloco de código CSV formatado por vírgulas.</div>
-                    <button class="copy-button" onclick="copyText('prompt-ghl', this)">
+                    <button class="copy-button" onclick="copyText('prompt-ghl', this)" title="Copiar prompt">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                     </button>
                 </div>
@@ -356,6 +362,7 @@ Me entregue o resultado em bloco de código CSV formatado por vírgulas.</div>
                 await navigator.clipboard.writeText(text);
                 btn.classList.add('copied');
                 const originalSvg = btn.innerHTML;
+                // Ícone de Check
                 btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
                 setTimeout(() => {
                     btn.classList.remove('copied');
