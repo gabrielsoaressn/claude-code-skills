@@ -11,63 +11,73 @@
 
     <style>
         :root {
+            /* Light Mode Vars */
             --bg-body: #fdfdfd;
             --bg-card: #ffffff;
             --text-main: #111827;
             --text-muted: #4b5563;
-            
-            /* Laranja Corporativo do Claude */
             --claude-orange: #d97706; 
-            --claude-orange-dark: #b45309; 
-            
+            --claude-orange-hover: #b45309; 
             --border: #e5e7eb;
             --bg-code: #1f2937;
             --text-code: #f3f4f6;
             --bg-prompt: #f9fafb;
-            
-            --transition: all 0.2s ease-in-out;
+            --transition: all 0.25s ease;
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-card-hover: 0 12px 24px -4px rgba(217, 119, 6, 0.08);
+            --shadow-card-hover: 0 12px 24px -4px rgba(217, 119, 6, 0.1);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        /* Dark Mode Vars */
+        body.dark-mode {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --claude-orange: #fb923c;
+            --claude-orange-hover: #fdba74;
+            --border: #334155;
+            --bg-code: #020617;
+            --text-code: #e2e8f0;
+            --bg-prompt: #0f172a;
+            --shadow-card-hover: 0 12px 24px -4px rgba(0, 0, 0, 0.4);
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
             line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
             -webkit-font-smoothing: antialiased;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
 
         /* Header */
         header {
-            padding: 3rem 0;
+            padding: 2rem 0;
             border-bottom: 2px solid var(--claude-orange);
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
-        .header-content {
+        .header-content { display: flex; justify-content: space-between; align-items: center; }
+
+        .site-title { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; text-transform: uppercase; }
+
+        .nav-controls { display: flex; gap: 1rem; align-items: center; }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-        }
-
-        .site-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            text-transform: uppercase;
+            transition: var(--transition);
         }
 
         .repo-link {
@@ -81,49 +91,27 @@
             transition: var(--transition);
         }
 
-        .repo-link:hover {
-            border-color: var(--claude-orange);
-            background-color: var(--claude-orange);
-            color: #ffffff;
-        }
+        .repo-link:hover, .theme-toggle:hover { border-color: var(--claude-orange); }
 
         /* Hero */
-        .hero {
-            margin-bottom: 4rem;
-        }
+        .hero { margin-bottom: 4rem; }
+        .hero h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -1px; line-height: 1.2; margin-bottom: 1rem; }
+        .hero h1 span { color: var(--claude-orange); }
+        .hero p { font-size: 1.125rem; color: var(--text-muted); max-width: 700px; }
 
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: -1px;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-        }
-
-        .hero h1 span {
-            color: var(--claude-orange);
-        }
-
-        .hero p {
-            font-size: 1.125rem;
-            color: var(--text-muted);
-            max-width: 700px;
-        }
-
-        /* Section Titles */
         .section-title {
             font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--border);
             display: inline-block;
         }
 
-        /* Skills Grid */
+        /* Grid */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
             margin-bottom: 5rem;
         }
@@ -145,83 +133,45 @@
             border-color: var(--claude-orange);
         }
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
+        .card-header { display: flex; align-items: center; margin-bottom: 1.5rem; }
+        .skill-icon { color: var(--claude-orange); margin-right: 1rem; }
+        .skill-card h3 { font-size: 1.4rem; font-weight: 700; }
+        .skill-card p.desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 2rem; flex-grow: 1; }
 
-        /* Ícones SVG */
-        .skill-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--claude-orange);
-            margin-right: 0.75rem;
-        }
-
-        .skill-card h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
-
-        .skill-card p.desc {
-            font-size: 1rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            flex-grow: 1;
-        }
-
-        /* Labels e Botões de Copiar (Layout Corrigido) */
+        /* Copy Wrapper e Code */
+        .copy-wrapper { position: relative; margin-bottom: 1.5rem; }
+        
         .install-label {
             display: block;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-muted);
             margin-bottom: 0.5rem;
-            letter-spacing: 0.5px;
-        }
-
-        .copy-wrapper {
-            position: relative;
-            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
         }
 
         code.cli {
             display: block;
             background-color: var(--bg-code);
             color: var(--text-code);
-            padding: 1rem 3.5rem 1rem 1.25rem; /* Espaço extra na direita (3.5rem) para o botão não sobrepor */
+            padding: 1.25rem 3.5rem 1.25rem 1.25rem;
             border-radius: 8px;
-            font-family: monospace;
-            font-size: 0.875rem;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 0.85rem;
             overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .prompt-box {
-            background-color: var(--bg-prompt);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem 3.5rem 1.5rem 1.5rem; /* Espaço extra na direita */
-            font-family: inherit;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: var(--text-main);
-            white-space: pre-wrap;
-            overflow-x: auto;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .copy-button {
             position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background-color: transparent;
-            border: 1px solid transparent;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #9ca3af;
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -230,97 +180,39 @@
             transition: var(--transition);
         }
 
-        .copy-wrapper:hover .copy-button {
-            border-color: #4b5563;
-        }
+        body.dark-mode .copy-button { background-color: rgba(255, 255, 255, 0.05); }
 
-        /* Ajuste de cor do botão dentro do prompt box que é mais claro */
-        .prompt-wrapper .copy-button {
-            color: var(--text-muted);
-        }
-        .prompt-wrapper:hover .copy-button {
-            border-color: var(--border);
-            background-color: white;
-        }
+        .copy-button:hover { background-color: var(--claude-orange); color: white; border-color: var(--claude-orange); }
+        .copy-button.copied { background-color: #10b981; border-color: #10b981; color: white; }
 
-        .copy-button:hover {
-            background-color: #374151;
-            color: #ffffff;
-        }
-
-        .prompt-wrapper .copy-button:hover {
-            background-color: var(--border);
-            color: var(--text-main);
-        }
-
-        .copy-button.copied {
-            background-color: var(--claude-orange) !important;
-            border-color: var(--claude-orange) !important;
-            color: white !important;
-        }
-
-        /* Links no rodapé do card */
         .btn-link {
-            display: inline-block;
-            text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 600;
             color: var(--claude-orange);
-            margin-top: auto;
-            align-self: flex-start;
-        }
-
-        .btn-link:hover {
-            color: var(--claude-orange-dark);
-        }
-
-        /* Prompts Section */
-        .prompt-card {
-            background-color: var(--bg-card);
-            padding: 2.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 5rem;
-            transition: var(--transition);
-        }
-        
-        .prompt-card:hover {
-            border-color: var(--claude-orange);
-            box-shadow: var(--shadow-card-hover);
-        }
-
-        .prompt-card h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .prompt-card p.desc {
-            font-size: 1rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-
-        /* Footer */
-        footer {
-            padding: 3rem 0;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-
-        footer a {
-            color: var(--claude-orange);
             text-decoration: none;
-            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
+
+        /* Prompt Box Specifics */
+        .prompt-wrapper .prompt-box {
+            background-color: var(--bg-prompt);
+            border: 1px solid var(--border);
+            padding: 1.5rem 3.5rem 1.5rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            color: var(--text-main);
+        }
+        .prompt-wrapper .copy-button { color: var(--text-muted); border-color: var(--border); }
+
+        footer { padding: 4rem 0; border-top: 1px solid var(--border); text-align: center; font-size: 0.875rem; color: var(--text-muted); }
+        footer a { color: var(--claude-orange); text-decoration: none; font-weight: 600; }
 
         @media (max-width: 768px) {
             .hero h1 { font-size: 2rem; }
-            .header-content { flex-direction: column; gap: 1rem; text-align: center; }
-            .skills-grid { grid-template-columns: 1fr; }
+            .header-content { flex-direction: column; gap: 1.5rem; text-align: center; }
         }
     </style>
 </head>
@@ -329,116 +221,125 @@
     <header>
         <div class="container header-content">
             <div class="site-title">Claude Skills</div>
-            <a href="https://github.com/gabrielsoaressn/claude-code-skills" target="_blank" class="repo-link">
-                Repositório GitHub
-            </a>
+            <div class="nav-controls">
+                <button id="theme-toggle" class="theme-toggle" title="Alternar tema">
+                    <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+                <a href="https://github.com/gabrielsoaressn/claude-code-skills" target="_blank" class="repo-link">GitHub</a>
+            </div>
         </div>
     </header>
 
     <main class="container">
         <section class="hero">
-            <h1>Ferramentas e fluxos para o <span>Claude Code</span></h1>
-            <p>Um diretório técnico de habilidades customizadas projetadas para otimizar o processamento de dados e a segurança cibernética.</p>
+            <h1>Fluxos e <span>Skills</span> para Claude</h1>
+            <p>Repositório de automações e prompts avançados para estruturação de dados, internacionalização e performance.</p>
         </section>
 
-        <h2 class="section-title">Habilidades Prontas</h2>
+        <h2 class="section-title">Skills Disponíveis</h2>
         <section class="skills-grid">
             
             <article class="skill-card">
                 <div class="card-header">
                     <div class="skill-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0v3.75C20.25 19.853 16.556 21.75 12 21.75s-8.25-1.847-8.25-4.125v-3.75" />
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 1.1.9 2 2 2h12a2 2 0 002-2V7M4 7c0-1.1.9-2 2-2h12a2 2 0 012 2M4 7l8 5 8-5M12 18a2 2 0 100-4 2 2 0 000 4z" /></svg>
                     </div>
                     <h3>Módulo: Data</h3>
                 </div>
-                <p class="desc">Habilidades focadas na manipulação, limpeza e análise de grandes volumes de informação. Ideal para estruturação de bancos de dados.</p>
-                
-                <label class="install-label">Instalação</label>
+                <p class="desc">Limpeza e estruturação de dados brutos para CRMs e bancos de dados relacionais.</p>
+                <label class="install-label">Instalação via curl</label>
                 <div class="copy-wrapper">
-                    <code class="cli" id="code-data">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/data/install.sh</code>
-                    <button class="copy-button" onclick="copyText('code-data', this)" title="Copiar código">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                    <code id="code-data" class="cli">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/data/install.sh</code>
+                    <button class="copy-button" onclick="copyText('code-data', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                     </button>
                 </div>
-
-                <a href="https://github.com/gabrielsoaressn/claude-code-skills/tree/main/data" target="_blank" class="btn-link">Ver documentação</a>
+                <a href="#" class="btn-link">Ver documentação →</a>
             </article>
 
             <article class="skill-card">
                 <div class="card-header">
                     <div class="skill-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                     </div>
                     <h3>Módulo: Security</h3>
                 </div>
-                <p class="desc">Ferramentas de auditoria e práticas de código seguro para garantir a integridade dos projetos analisados pelo Claude.</p>
-                
-                <label class="install-label">Instalação</label>
+                <p class="desc">Auditoria de vulnerabilidades em código e boas práticas de criptografia.</p>
+                <label class="install-label">Instalação via curl</label>
                 <div class="copy-wrapper">
-                    <code class="cli" id="code-security">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/security/install.sh</code>
-                    <button class="copy-button" onclick="copyText('code-security', this)" title="Copiar código">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                    <code id="code-sec" class="cli">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/security/install.sh</code>
+                    <button class="copy-button" onclick="copyText('code-sec', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                     </button>
                 </div>
+                <a href="#" class="btn-link">Ver documentação →</a>
+            </article>
 
-                <a href="https://github.com/gabrielsoaressn/claude-code-skills/tree/main/security" target="_blank" class="btn-link">Ver documentação</a>
+            <article class="skill-card">
+                <div class="card-header">
+                    <div class="skill-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+                    </div>
+                    <h3>Módulo: i18n</h3>
+                </div>
+                <p class="desc">Automação de tradução de arquivos JSON/YAML mantendo a estrutura original.</p>
+                <label class="install-label">Instalação via curl</label>
+                <div class="copy-wrapper">
+                    <code id="code-i18n" class="cli">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/i18n/install.sh</code>
+                    <button class="copy-button" onclick="copyText('code-i18n', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                    </button>
+                </div>
+                <a href="#" class="btn-link">Ver documentação →</a>
+            </article>
+
+            <article class="skill-card">
+                <div class="card-header">
+                    <div class="skill-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    </div>
+                    <h3>Módulo: Performance</h3>
+                </div>
+                <p class="desc">Análise de gargalos em scripts e sugestão de refatoração para economia de recursos.</p>
+                <label class="install-label">Instalação via curl</label>
+                <div class="copy-wrapper">
+                    <code id="code-perf" class="cli">curl -O https://raw.githubusercontent.com/gabrielsoaressn/claude-code-skills/main/performance/install.sh</code>
+                    <button class="copy-button" onclick="copyText('code-perf', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                    </button>
+                </div>
+                <a href="#" class="btn-link">Ver documentação →</a>
             </article>
 
         </section>
 
         <h2 class="section-title">Prompts Úteis</h2>
         <section class="prompts-section">
-            
             <article class="prompt-card">
-                <h3>Importação em Massa (GoHighLevel)</h3>
-                <p class="desc">Instrua o Claude a processar uma lista bruta de leads e formatá-la perfeitamente para o CRM GoHighLevel, aplicando regras de limpeza de dados e padronização de telefones brasileiros (E.164).</p>
-                
+                <h3>GHL Bulk Import Specializer</h3>
+                <p class="desc">Prompt otimizado para transformar leads em CSV compatível com GoHighLevel (Brasil E.164).</p>
                 <div class="copy-wrapper prompt-wrapper">
-                    <div class="prompt-box" id="prompt-ghl">Atue como um especialista em estruturação de dados e CRM. Sua tarefa é receber uma lista bruta de leads e transformá-la em um arquivo CSV formatado estritamente para importação em massa no GoHighLevel (GHL).
+                    <div id="prompt-ghl" class="prompt-box">Atue como um especialista em estruturação de dados e CRM. Sua tarefa é receber uma lista bruta de leads e transformá-la em um arquivo CSV formatado estritamente para importação em massa no GoHighLevel (GHL).
 
 Aqui estão as regras obrigatórias de formatação e a estrutura exata de colunas que o arquivo final deve ter:
 
-**ESTRUTURA DE COLUNAS (Exatamente nesta ordem e nomenclatura):**
-1. First Name
-2. Last Name
-3. Email
-4. Phone
-5. Tags
-6. Source
-7. Pipeline
-8. Opportunity name
+**ESTRUTURA DE COLUNAS:**
+1. First Name, 2. Last Name, 3. Email, 4. Phone, 5. Tags, 6. Source, 7. Pipeline, 8. Opportunity name
 
-**REGRAS DE PREENCHIMENTO E TRATAMENTO DE DADOS:**
-* **First Name:** Se estiver em branco na origem, preencha com "Lead". Limpe espaços em branco extras.
-* **Last Name:** Se estiver em branco na origem, preencha com "sobrenome".
-* **Email:** Se não houver, deixe a célula completamente vazia (não use n/a ou traços).
-* **Phone (REGRA CRÍTICA E.164):** * Extraia apenas os números.
-    * Adicione o código do país "+55" no início.
-    * Verifique o 9º dígito para celulares do Brasil: Se o número (após o DDD) tiver apenas 8 dígitos e começar com 6, 7, 8 ou 9, você DEVE adicionar o dígito "9" logo após o DDD. (Exemplo: de +55 71 84585405 para +55 71 984585405).
-    * Se for telefone fixo (8 dígitos começando com 2, 3, 4 ou 5), não adicione o 9.
-* **Tags:** Preencha todas as linhas com a tag: [INSERIR TAG AQUI, ex: importado]
-* **Source:** Preencha todas as linhas com: [INSERIR FONTE AQUI, ex: importação março 2026]
-* **Pipeline:** Preencha todas as linhas com: [INSERIR PIPELINE AQUI, ex: 2. Corretor]
-* **Opportunity name:** Concatene o "First Name" + espaço + "Last Name" (Ex: Lead sobrenome).
+**REGRAS DE TRATAMENTO:**
+* Phone: Extraia números, adicione +55 e verifique o 9º dígito para celulares brasileiros.
+* Opportunity Name: Concatene First + Last Name.
+* Tags/Source/Pipeline: Preencha conforme os campos indicados.
 
-**FORMATO DE SAÍDA:**
-Me entregue o resultado em um bloco de código CSV formatado por vírgulas, pronto para ser copiado e salvo como .csv, ou gere um arquivo .csv para download. Não altere os nomes dos cabeçalhos em nenhuma hipótese.
-
-Aqui estão os dados brutos para você processar:
-[COLE SUA LISTA BRUTA AQUI]</div>
-                    
-                    <button class="copy-button" onclick="copyText('prompt-ghl', this)" title="Copiar prompt">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+Me entregue o resultado em bloco de código CSV formatado por vírgulas.</div>
+                    <button class="copy-button" onclick="copyText('prompt-ghl', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                     </button>
                 </div>
             </article>
-
         </section>
-
     </main>
 
     <footer>
@@ -448,33 +349,41 @@ Aqui estão os dados brutos para você processar:
     </footer>
 
     <script>
-        // Strings dos SVGs para trocar a imagem quando copiado
-        const iconCopy = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>`;
-        const iconCheck = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
-
-        async function copyText(elementId, btnElement) {
-            const targetElement = document.getElementById(elementId);
-            const textToCopy = targetElement.innerText;
-
+        // Lógica de Copiar
+        async function copyText(elementId, btn) {
+            const text = document.getElementById(elementId).innerText;
             try {
-                await navigator.clipboard.writeText(textToCopy);
-                
-                // Muda para o ícone de Check e adiciona a classe laranja
-                btnElement.innerHTML = iconCheck;
-                btnElement.classList.add('copied');
-                
-                // Volta ao normal após 2 segundos
+                await navigator.clipboard.writeText(text);
+                btn.classList.add('copied');
+                const originalSvg = btn.innerHTML;
+                btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>`;
                 setTimeout(() => {
-                    btnElement.innerHTML = iconCopy;
-                    btnElement.classList.remove('copied');
+                    btn.classList.remove('copied');
+                    btn.innerHTML = originalSvg;
                 }, 2000);
-
-            } catch (err) {
-                console.error('Falha ao copiar:', err);
-                alert('Não foi possível copiar o texto.');
-            }
+            } catch (err) { alert('Erro ao copiar'); }
         }
-    </script>
 
+        // Lógica Dark Mode
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        const themeIcon = document.getElementById('theme-icon');
+
+        const sunIcon = `<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />`;
+        const moonIcon = `<path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />`;
+
+        // Verifica preferência salva ou do sistema
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            body.classList.add('dark-mode');
+            themeIcon.innerHTML = sunIcon;
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const isDark = body.classList.contains('dark-mode');
+            themeIcon.innerHTML = isDark ? sunIcon : moonIcon;
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+    </script>
 </body>
 </html>
