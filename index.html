@@ -327,19 +327,45 @@
                 <h3>GHL Bulk Import Specializer</h3>
                 <p class="desc">Prompt otimizado para transformar leads em CSV compatível com GoHighLevel (Brasil E.164).</p>
                 <div class="copy-wrapper prompt-wrapper">
-                    <div id="prompt-ghl" class="prompt-box">Atue como um especialista em estruturação de dados e CRM. Sua tarefa é receber uma lista bruta de leads e transformá-la em um arquivo CSV formatado estritamente para importação em massa no GoHighLevel (GHL).
+                    <div id="prompt-ghl" class="prompt-box">Atue como um especialista em tratamento de dados e CRM. Sua tarefa é converter uma lista bruta de contatos em um arquivo CSV perfeito para importação no GoHighLevel (GHL).
 
-Aqui estão as regras obrigatórias de formatação e a estrutura exata de colunas que o arquivo final deve ter:
+MUITO IMPORTANTE - REGRA DE INTEGRIDADE: Você deve processar 100% das linhas fornecidas. É estritamente proibido truncar, resumir ou omitir contatos (ex: não pare no 50º contato para dar um exemplo). Processe a lista inteira até a última linha.
 
-**ESTRUTURA DE COLUNAS:**
-1. First Name, 2. Last Name, 3. Email, 4. Phone, 5. Tags, 6. Source, 7. Pipeline, 8. Opportunity name
+ESTRUTURA OBRIGATÓRIA DE COLUNAS (Exatamente nesta ordem):
+1. First Name
+2. Last Name
+3. Email
+4. Phone
+5. Tags
+6. Source
+7. Pipeline
+8. Opportunity name
 
-**REGRAS DE TRATAMENTO:**
-* Phone: Extraia números, adicione +55 e verifique o 9º dígito para celulares brasileiros.
-* Opportunity Name: Concatene First + Last Name.
-* Tags/Source/Pipeline: Preencha conforme os campos indicados.
+REGRAS ESTABELECIDAS PARA TODAS AS LINHAS (Sem exceções):
+* First Name: Limpe os espaços. Se não houver nome, escreva obrigatoriamente a palavra "Lead".
+* Last Name: Se não houver sobrenome na origem, escreva obrigatoriamente a palavra "sobrenome". NUNCA deixe vazio (ex: ,,).
+* Email: Deixe o campo vazio em todas as linhas.
+* Phone: Formato E.164. Mantenha apenas números e adicione o "+55" no início.
+    - REGRA DO 9º DÍGITO (Crucial): Se o número tiver 10 dígitos totais após o 55 (ex: 71 84585405), e o primeiro dígito do número local for 6, 7, 8 ou 9, VOCÊ DEVE INSERIR O DÍGITO "9" logo após o DDD (ex: de +557184585405 muda para +5571984585405).
+    - Se for telefone fixo (começa com 2, 3, 4 ou 5), mantenha com 8 dígitos normais.
+* Tags: PREENCHA TODAS AS LINHAS obrigatoriamente com: [INSERIR TAG AQUI, ex: importado]
+* Source: PREENCHA TODAS AS LINHAS obrigatoriamente com: [INSERIR FONTE AQUI, ex: importação março 2026]
+* Pipeline: PREENCHA TODAS AS LINHAS obrigatoriamente com: [INSERIR PIPELINE AQUI, ex: 2. Corretor]
+* Opportunity name: Concatene "First Name" + " " + "Last Name".
 
-Me entregue o resultado em bloco de código CSV formatado por vírgulas.</div>
+EXEMPLO DE COMO TODAS AS LINHAS DEVEM FICAR (NUNCA DEIXE VAZIOS NAS PONTAS):
+First Name,Last Name,Email,Phone,Tags,Source,Pipeline,Opportunity name
+João,Silva,,+5571988887777,importado,importação março 2026,2. Corretor,João Silva
+Lead,sobrenome,,+5571984585405,importado,importação março 2026,2. Corretor,Lead sobrenome
+Wesley,sobrenome,,+5575982227627,importado,importação março 2026,2. Corretor,Wesley sobrenome
+
+FORMATO DE SAÍDA E ENTREGA (AÇÃO IMEDIATA):
+Não me faça perguntas adicionais (ex: "Deseja que eu gere um arquivo?"). Entregue o resultado direto na sua primeira resposta seguindo esta lógica:
+1. Se a sua plataforma tiver a capacidade de gerar arquivos para download (como Advanced Data Analysis/Code Interpreter), rode um script silenciosamente, gere o arquivo .csv final com TODAS as linhas e me dê apenas o link de download.
+2. Se você NÃO tiver capacidade de gerar arquivos para download, retorne APENAS um bloco de código CSV contendo ABSOLUTAMENTE TODAS as linhas processadas. Não quebre a resposta e não abrevie.
+
+Aqui estão os dados brutos para você processar:
+[COLE A SUA LISTA DE DADOS AQUI].</div>
                     <button class="copy-button" onclick="copyText('prompt-ghl', this)" title="Copiar prompt">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                     </button>
